@@ -1,0 +1,22 @@
+version: "3.9"
+name: badvpn-udpgw
+services:
+  badvpn-udpgw:
+    image: lutfailham/badvpn-udpgw:latest-alpine
+    #build: .
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          memory: 64M
+    container_name: badvpn-udpgw
+    restart: always
+    environment:
+      UDPGW_PORT: "7300"
+    ports:
+      - "7300:7300"
+    networks:
+      - tunnel
+networks:
+  tunnel:
