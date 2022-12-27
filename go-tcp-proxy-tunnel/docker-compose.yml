@@ -1,0 +1,32 @@
+version: "3.9"
+name: go-tcp-proxy-tunnel
+services:
+  go_tcp_proxy_tunnel:
+    image: lutfailham/go-tcp-proxy-tunnel:latest-alpine
+    #build: .
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          memory: 128M
+    container_name: go-tcp-proxy-tunnel
+    restart: always
+    environment:
+      WS_WEBSERVER_ENABLED: "true"
+      WS_WEBSERVER_DROPBEAR: "dropbear:443"
+      WS_WEBSERVER_TROJAN: "trojan:443"
+      WS_WEBSERVER_TROJAN_PATH: "/ws-trojan"
+      WS_WEBSERVER_SNI: "localhost"
+      WS_WEBSERVER_LOGLEVEL: "1"
+      PROXY_DROPBEAR: "dropbear:443"
+      PROXY_TROJAN: "trojan:443"
+      PROXY_LOGLEVEL: "1"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8082:8082"
+    networks:
+      - tunnel
+networks:
+  tunnel:
