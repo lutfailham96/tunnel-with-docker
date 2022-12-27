@@ -1,0 +1,22 @@
+version: "3.9"
+name: dropbear
+services:
+  dropbear:
+    image: lutfailham/dropbear:2022.83-alpine
+    #build: .
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          memory: 128M
+    container_name: dropbear
+    restart: always
+    environment:
+      DROPBEAR_PORT: "443"
+    #ports:
+    #  - "443:443"
+    networks:
+      - tunnel
+networks:
+  tunnel:
